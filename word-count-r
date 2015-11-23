@@ -1,0 +1,29 @@
+# A SIMPLE WORD COUNT IN R
+
+# LOAD REQUIRED PACKAGE
+
+library("tm")
+
+# LOAD DATA
+
+data <- read.csv("<enter file location here>")
+
+# Cleaning Text and Creating Bag of Words
+
+words <- word_split(data)
+words <- Corpus(VectorSource(words))
+words <- tm_map(words, stripWhitespace)
+words <- tm_map(words, tolower)
+words <- tm_map(words, stemDocument)
+words <- tm_map(words, removePunctuation)
+words  <- tm_map(words, PlainTextDocument)
+
+# Create Text Document Matrix
+
+tdm <- TermDocumentMatrix(words)
+tdm2 <- as.matrix(tdm)
+
+# Word Frequency
+
+word.freq <- rowSums(tdm2)
+top.word.freq <- sort(word.freq, decreasing=TRUE)
