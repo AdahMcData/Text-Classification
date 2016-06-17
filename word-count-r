@@ -1,22 +1,23 @@
 # A SIMPLE WORD COUNT IN R
 
-# LOAD REQUIRED PACKAGE
+# REQUIRED PACKAGE
 
 library("tm")
 
-# LOAD DATA
+# DATA
 
-data <- read.csv("<enter file location here>")
+data <- read.delim("D:/War and Peace Tolstoy.txt")
+
 
 # Cleaning Text and Creating Bag of Words
 
-words <- word_split(data)
-words <- Corpus(VectorSource(words))
+words <- Corpus(VectorSource(data))
 words <- tm_map(words, stripWhitespace)
 words <- tm_map(words, tolower)
 words <- tm_map(words, stemDocument)
 words <- tm_map(words, removePunctuation)
-words  <- tm_map(words, PlainTextDocument)
+words <- tm_map(words, PlainTextDocument)
+words <- tm_map(words, removeWords, stopwords('english'))
 
 # Create Text Document Matrix
 
